@@ -31,26 +31,22 @@ update_record() {
   log "Processing $TYPE record for $RECORD_NAME.$DOMAIN → $IP"
 
   # Retrieve existing record
-  RESPONSE=$(curl -s -X POST https://porkbun.com/api/json/v3/dns/retrieveByNameType \
+  RESPONSE=$(curl -s -X POST https://api.porkbun.com/api/json/v3/dns/retrieveByNameType/$DOMAIN/$TYPE/$RECORD_NAME \
     -H "Content-Type: application/json" \
     -d '{
       "apikey": "'"$API_KEY"'",
       "secretapikey": "'"$API_SECRET"'",
-      "name": "'"$RECORD_NAME"'",
-      "type": "'"$TYPE"'"
     }')
 
   RECORD_ID=$(echo "$RESPONSE" | jq -r '.records[0].id // empty')
 
   if [[ -n "$RECORD_ID" ]]; then
     log "Updating existing $TYPE record (ID=$RECORD_ID)"
-    RESPONSE=$(curl -s -X POST https://porkbun.com/api/json/v3/dns/edit \
+    RESPONSE=$(curl -s -X POST https://api.porkbun.com/api/json/v3/dns/edit/$DOMAIN/$RECORD_ID \
       -H "Content-Type: application/json" \
       -d '{
         "apikey": "'"$API_KEY"'",
         "secretapikey": "'"$API_SECRET"'",
-        "domain": "'"$DOMAIN"'",
-        "id": "'"$RECORD_ID"'",
         "type": "'"$TYPE"'",
         "name": "'"$RECORD_NAME"'",
         "content": "'"$IP"'",
@@ -58,12 +54,11 @@ update_record() {
       }')
   else
     log "Creating new $TYPE record"
-    RESPONSE=$(curl -s -X POST https://porkbun.com/api/json/v3/dns/create \
+    RESPONSE=$(curl -s -X POST https://api.porkbun.com/api/json/v3/dns/create/$DOMAIN \
       -H "Content-Type: application/json" \
       -d '{
         "apikey": "'"$API_KEY"'",
         "secretapikey": "'"$API_SECRET"'",
-        "domain": "'"$DOMAIN"'",
         "type": "'"$TYPE"'",
         "name": "'"$RECORD_NAME"'",
         "content": "'"$IP"'",
