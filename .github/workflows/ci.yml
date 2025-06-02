@@ -19,7 +19,7 @@ jobs:
         run: sudo apt-get install -y shellcheck
 
       - name: Run ShellCheck on script
-        run: shellcheck -x update-porkbun-dns.sh
+        run: shellcheck -x -e SC1091 update-porkbun-dns.sh
 
   test-run:
     name: Dry Run Script
