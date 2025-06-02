@@ -79,13 +79,6 @@ Log file: `update_porkbun.log`
 ## ⚠️ Security Considerations
 
 - **Keep `.env` private.** It contains your Porkbun API keys.
-
-- Add `.env` to `.gitignore`:
-
-  ```bash
-  echo ".env" >> .gitignore
-  ```
-
 - Never commit `.env` to GitHub or share it publicly.
 - Use [Porkbun API manager](https://porkbun.com/account/api) to regenerate your keys if you suspect a leak.
 
