@@ -46,8 +46,15 @@ update_record() {
       "apikey": "'"$API_KEY"'",
       "secretapikey": "'"$API_SECRET"'"
     }')
+  log "Raw retrieve response: $RESPONSE"
 
   RECORD_ID=$(echo "$RESPONSE" | jq -r '.records[0].id // empty')
+  EXISTING_IP=$(echo "$RESPONSE" | jq -r '.records[0].content // empty')
+
+  if [[ "$EXISTING_IP" == "$IP" ]]; then
+    log "$TYPE record is already up-to-date ($IP), skipping."
+    return
+  fi
 
   if [[ -n "$RECORD_ID" ]]; then
     log "Updating existing $TYPE record (ID=$RECORD_ID)"
