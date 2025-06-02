@@ -86,11 +86,11 @@ Log file: `update_porkbun.log`
 
 - **Keep `.env` private.** It contains your Porkbun API keys.
 
-  - Add `.env` to `.gitignore`:
+- Add `.env` to `.gitignore`:
 
-    ```bash
-    echo ".env" >> .gitignore
-    ```
+  ```bash
+  echo ".env" >> .gitignore
+  ```
 
 - Never commit `.env` to GitHub or share it publicly.
 - Use [Porkbun API manager](https://porkbun.com/account/api) to regenerate your keys if you suspect a leak.
@@ -115,16 +115,6 @@ Add:
 
 ---
 
-## 🔄 Supports Both IPv4 and IPv6
-
-The script will:
-
-- Update the A record if it detects an external IPv4 address.
-- Update the AAAA record if it detects an external IPv6 address.
-- Skip updating if an address is not available.
-
----
-
 ## 🙏 Acknowledgments
 
 - [Porkbun API Docs](https://porkbun.com/api/json/v3/documentation)
@@ -138,3 +128,8 @@ The script will:
 Feel free to open issues or submit PRs!
 
 ---
+
+## 📜 License
+
+This project is licensed under the Apache License 2.0.
+See the [LICENSE](/LICENSE) file for details.
