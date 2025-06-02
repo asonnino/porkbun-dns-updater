@@ -2,16 +2,30 @@
 
 set -euo pipefail
 
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
+
+# === Logging setup ===
+LOG_FILE="$SCRIPT_DIR/update_porkbun.log"
+log() {
+  echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG_FILE"
+}
+
+# === Check for required tools ===
+if ! command -v jq >/dev/null 2>&1; then
+  log "[ERROR] 'jq' is not installed. Please install jq to continue."
+  exit 1
+fi
 
 # === Load config ===
 if [[ -f .env ]]; then
   source .env
 else
-  echo "Missing .env file in $SCRIPT_DIR. Please create one."
+  log "[ERROR] Missing .env file in $SCRIPT_DIR. Please create one."
   exit 1
 fi
+
 
 : "${API_KEY:?API_KEY is required}"
 : "${API_SECRET:?API_SECRET is required}"
@@ -26,11 +40,6 @@ API_BASE_URL="https://api.porkbun.com/api/json/v3"
 IPV4=$(curl -s --max-time 5 https://api.ipify.org || true)
 IPV6=$(curl -s --max-time 5 https://api6.ipify.org || true)
 
-# === Logging setup ===
-LOG_FILE="$SCRIPT_DIR/update_porkbun.log"
-log() {
-  echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG_FILE"
-}
 
 # === Update records ===
 update_record() {
