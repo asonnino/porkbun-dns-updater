@@ -1,12 +1,10 @@
 # Porkbun Dynamic DNS Updater
 
-![Shell Script](https://img.shields.io/badge/Bash-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/asonnino/porkbun-dns-updater/ci.yml?branch=main&style=for-the-badge&logo=githubactions)
+![Static Badge](https://img.shields.io/badge/Bash-v4%2B-blue?style=for-the-badge&logo=gnu-bash&logoColor=white)
 ![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=for-the-badge)
 
 This is a simple Bash script that automatically updates the A (IPv4) and/or AAAA (IPv6) DNS records for a domain or subdomain registered with [Porkbun](https://porkbun.com). The script detects your machine’s current public IP address and updates the DNS records accordingly. If no record exists, it creates one.
-
----
 
 ## ✨ Features
 
@@ -16,8 +14,6 @@ This is a simple Bash script that automatically updates the A (IPv4) and/or AAAA
 - ✅ Clean logging with timestamps
 - ✅ `.env` support to keep credentials secure and separate
 - ✅ Works with both root domain (`@`) and subdomains
-
----
 
 ## 📦 Requirements
 
@@ -34,8 +30,6 @@ sudo apt install jq
 # macOS
 brew install jq
 ```
-
----
 
 ## 🛠️ Setup
 
@@ -69,8 +63,6 @@ chmod +x update_porkbun_dns.sh
 ./update_porkbun_dns.sh
 ```
 
----
-
 ## 🧪 Sample Output
 
 ```text
@@ -84,8 +76,6 @@ chmod +x update_porkbun_dns.sh
 
 Log file: `update_porkbun.log`
 
----
-
 ## ⚠️ Security Considerations
 
 - **Keep `.env` private.** It contains your Porkbun API keys.
@@ -98,8 +88,6 @@ Log file: `update_porkbun.log`
 
 - Never commit `.env` to GitHub or share it publicly.
 - Use [Porkbun API manager](https://porkbun.com/account/api) to regenerate your keys if you suspect a leak.
-
----
 
 ## 🕒 Automation (Optional)
 
@@ -117,21 +105,15 @@ Add:
 */10 * * * * /path/to/update_porkbun_dns.sh >> /path/to/cron.log 2>&1
 ```
 
----
-
 ## 🙏 Acknowledgments
 
 - [Porkbun API Docs](https://porkbun.com/api/json/v3/documentation)
 - [ipify.org](https://www.ipify.org/) for public IP detection
 - `jq` for JSON parsing
 
----
-
 ## 🐛 Issues / Suggestions
 
 Feel free to open issues or submit PRs!
-
----
 
 ## 📜 License
 
