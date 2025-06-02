@@ -102,7 +102,7 @@ crontab -e
 Add:
 
 ```cron
-*/10 * * * * /path/to/update_porkbun_dns.sh >> /path/to/cron.log 2>&1
+*/10 * * * * /path/to/update-porkbun-dns.sh > /dev/null
 ```
 
 ## 🙏 Acknowledgments
