@@ -1,5 +1,9 @@
 # Porkbun Dynamic DNS Updater
 
+![Shell Script](https://img.shields.io/badge/Bash-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/asonnino/porkbun-dns-updater/ci.yml?branch=main&style=for-the-badge&logo=githubactions)
+![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=for-the-badge)
+
 This is a simple Bash script that automatically updates the A (IPv4) and/or AAAA (IPv6) DNS records for a domain or subdomain registered with [Porkbun](https://porkbun.com). The script detects your machine’s current public IP address and updates the DNS records accordingly. If no record exists, it creates one.
 
 ---
