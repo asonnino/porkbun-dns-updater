@@ -19,7 +19,7 @@ jobs:
         run: sudo apt-get install -y shellcheck
 
       - name: Run ShellCheck on script
-        run: shellcheck update_porkbun_dns.sh
+        run: shellcheck update-porkbun-dns.sh
 
   test-run:
     name: Dry Run Script
@@ -41,7 +41,7 @@ jobs:
         run: sudo apt-get install -y curl jq
 
       - name: Run script (dry run)
-        run: bash update_porkbun_dns.sh || true
+        run: bash update-porkbun-dns.sh || true
 
       - name: Clean up
         run: rm .env
