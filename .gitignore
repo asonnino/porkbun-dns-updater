@@ -1,0 +1,14 @@
+# Ignore environment file with secrets
+.env
+
+# Ignore log files
+*.log
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore any backup or temporary files
+*~
+*.swp
+*.bak

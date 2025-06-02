@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install ShellCheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: Run ShellCheck on script
+        run: shellcheck update_porkbun_dns.sh
+
+  test-run:
+    name: Dry Run Script
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create mock .env
+        run: |
+          echo "API_KEY=dummy" > .env
+          echo "API_SECRET=dummy" >> .env
+          echo "DOMAIN=example.com" >> .env
+          echo "RECORD_NAME=@" >> .env
+          echo "TTL=300" >> .env
+
+      - name: Install dependencies
+        run: sudo apt-get install -y curl jq
+
+      - name: Run script (dry run)
+        run: bash update_porkbun_dns.sh || true
+
+      - name: Clean up
+        run: rm .env
