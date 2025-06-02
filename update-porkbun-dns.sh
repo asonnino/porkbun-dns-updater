@@ -19,11 +19,20 @@ fi
 : "${RECORD_NAME:?RECORD_NAME is required}"
 : "${TTL:=300}"
 
+# === API base URL ===
+API_BASE_URL="https://api.porkbun.com/api/json/v3"
+
+# === Detect IPs ===
+IPV4=$(curl -s --max-time 5 https://api.ipify.org || true)
+IPV6=$(curl -s --max-time 5 https://api6.ipify.org || true)
+
+# === Logging setup ===
 LOG_FILE="$SCRIPT_DIR/update_porkbun.log"
 log() {
   echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG_FILE"
 }
 
+# === Update records ===
 update_record() {
   local TYPE=$1
   local IP=$2
@@ -31,18 +40,18 @@ update_record() {
   log "Processing $TYPE record for $RECORD_NAME.$DOMAIN → $IP"
 
   # Retrieve existing record
-  RESPONSE=$(curl -s -X POST https://api.porkbun.com/api/json/v3/dns/retrieveByNameType/$DOMAIN/$TYPE/$RECORD_NAME \
+  RESPONSE=$(curl -s -X POST "$API_BASE_URL/dns/retrieveByNameType/$DOMAIN/$TYPE/$RECORD_NAME" \
     -H "Content-Type: application/json" \
     -d '{
       "apikey": "'"$API_KEY"'",
-      "secretapikey": "'"$API_SECRET"'",
+      "secretapikey": "'"$API_SECRET"'"
     }')
 
   RECORD_ID=$(echo "$RESPONSE" | jq -r '.records[0].id // empty')
 
   if [[ -n "$RECORD_ID" ]]; then
     log "Updating existing $TYPE record (ID=$RECORD_ID)"
-    RESPONSE=$(curl -s -X POST https://api.porkbun.com/api/json/v3/dns/edit/$DOMAIN/$RECORD_ID \
+    RESPONSE=$(curl -s -X POST "$API_BASE_URL/dns/edit/$DOMAIN/$RECORD_ID" \
       -H "Content-Type: application/json" \
       -d '{
         "apikey": "'"$API_KEY"'",
@@ -54,7 +63,7 @@ update_record() {
       }')
   else
     log "Creating new $TYPE record"
-    RESPONSE=$(curl -s -X POST https://api.porkbun.com/api/json/v3/dns/create/$DOMAIN \
+    RESPONSE=$(curl -s -X POST "$API_BASE_URL/dns/create/$DOMAIN" \
       -H "Content-Type: application/json" \
       -d '{
         "apikey": "'"$API_KEY"'",
@@ -68,10 +77,6 @@ update_record() {
 
   log "Porkbun API response: $(echo "$RESPONSE" | jq -c '.')"
 }
-
-# === Detect IPs ===
-IPV4=$(curl -s --max-time 5 https://api.ipify.org || true)
-IPV6=$(curl -s --max-time 5 https://api6.ipify.org || true)
 
 if [[ -n "$IPV4" ]]; then
   update_record "A" "$IPV4"
