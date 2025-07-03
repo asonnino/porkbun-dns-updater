@@ -44,6 +44,7 @@ cd porkbun-dns-updater
 
 ```bash
 cp .env.example .env
+chmod 600 .env
 ```
 
 Edit `.env` to match your configuration:
