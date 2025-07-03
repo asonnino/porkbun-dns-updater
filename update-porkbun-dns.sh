@@ -7,9 +7,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 # === Logging setup ===
-LOG_FILE="$SCRIPT_DIR/update_porkbun.log"
 log() {
-  echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG_FILE"
+  local message="[$(date +'%Y-%m-%d %H:%M:%S')] $*"
+  logger -t update_porkbun "$message"
+  echo "$message"
 }
 
 # === Check for required tools ===
