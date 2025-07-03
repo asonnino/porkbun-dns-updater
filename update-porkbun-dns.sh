@@ -8,7 +8,9 @@ cd "$SCRIPT_DIR"
 
 # === Logging setup ===
 log() {
-  local message="[$(date +'%Y-%m-%d %H:%M:%S')] $*"
+  local timestamp
+  timestamp="$(date +'%Y-%m-%d %H:%M:%S')"
+  local message="[$timestamp] $*"
   logger -t update_porkbun "$message"
   echo "$message"
 }
